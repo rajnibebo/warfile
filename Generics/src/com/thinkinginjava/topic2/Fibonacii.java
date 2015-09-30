@@ -11,6 +11,9 @@ public class Fibonacii implements Generator<Integer>{
 
 	private int count = 0;
 	
+	/**
+	 * This is a recursive function
+	 * */
 	public int fib(int n) {
 		if(n < 2) {
 			return 1;
