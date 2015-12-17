@@ -1,0 +1,39 @@
+<project name="b2c" basedir=".">
+	<property file="build.properties">
+	</property>
+	<target name="compile">
+		<mkdir dir="${dir.build}/${dir.classes}"/>
+		<javac srcdir="${dir.src}" destdir="${classpath.build}" classpath="${classpath}" debug="on" />
+	</target>
+	 <target name="clean">
+		<delete dir="${classpath.build}"/>
+	 	<delete file="${dir.deploy}/${web.app.name}.war"/>
+	</target>
+	<target name="web-app" depends="globaljar">
+		<mkdir dir="${dir.build}/${dir.temp}"/>
+		<war destfile="${dir.build}/${dir.temp}/${web.app.name}.war" webxml="config/web.xml">
+			<!-- <fileset dir="${dir.build}" >
+				<include name="**/*.class"/>
+			</fileset> -->
+			 <include name="com.Outpost.jar"/>
+			<fileset dir="${web.dir}">
+				<include name="**/*.jsp"/>
+			</fileset>
+			 <!--  <lib dir="${dir.build}/${dir.temp}">
+			       <include name="com.Outpost.jar"/>
+			  </lib>-->
+		</war>
+		<copy todir="${dir.deploy}">
+			<fileset dir="${dir.build}/${dir.temp}">
+				<include name="${web.app.name}.war"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="globaljar" depends="compile">
+	        <mkdir dir="${dir.build}/${dir.temp}"/>
+	        <jar jarfile="${dir.build}/${dir.temp}/com.Outpost.jar"
+	             basedir="${dir.build}/${dir.classes}">
+	        </jar>
+		</target>
+</project>
